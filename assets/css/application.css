@@ -1,0 +1,133 @@
+@charset "utf-8";
+body,h1,h2,h3,h4,h5,h6,p,dl,dt,dd,ul,ol,li,form,button,input,textarea,th,td{margin:0;padding:0}
+body,button,input,select,textarea{font:12px/1.5 tahoma,\5b8b\4f53,arial,sans-serif}
+h1,h2,h3,h4,h5,h6,button,input,select,textarea{font-size:100%}
+table{border-collapse:collapse;border-spacing:0}
+ul,ol{list-style:none}
+img{border:none;display: block;}
+em{font-style:normal}
+select{height:22px;line-height:18px;padding:2px 0;margin:0}
+body{color:#333}
+a{color:#206f96;text-decoration:none}
+a:hover{text-decoration:underline; color: #c00c00;}
+.upcolor{color:#cc0d0d;}
+.downcolor{color:#008000;}
+.levelcolor{color:#1772c0;}
+.tl{text-align:left;}
+.tc{text-align:center;}
+.tr{text-align:right;}
+.clearfix{zoom:1}
+.clearfix:before,.clearfix:after{content:"";display:table}
+.clearfix:after{clear:both;overflow:hidden}
+.fl{float:left}
+.fr{float:right}
+.hide{display:none;}
+.hidden{display:none !important;}
+
+.container{
+    width: 900px;
+    margin: 0 auto;
+}
+.container h1 {
+    margin-bottom: 15px;
+    font-size: 22px;
+    font-weight: 400;
+    font-family: 'Segoe UI Light', 'Microsoft Jhenghei';
+    text-shadow: 1px 1px 1px #d1cdcd;
+}
+.comments-warper li {
+  margin-bottom: 20px;
+}
+
+.comments-warper li .completed {
+  text-decoration: line-through;
+}
+
+.top-comment{
+    padding-left: 50px;
+}
+
+.reply-warper{
+    padding: 0 20px 0 120px;
+}
+.textarea-wrapper {
+    position: relative;
+    border: 1px solid #ccc;
+    border-bottom: none;
+    padding-right: 20px;
+    background: #fff;
+    overflow: hidden;
+    border-radius: 3px 3px 0 0;
+}
+.textarea-wrapper textarea {
+    box-shadow: none;
+    -webkit-appearance: none;
+    overflow: auto;
+    padding: 10px;
+    height: 54px;
+    margin: 0;
+    resize: none;
+    color: #999;
+    width: 100%;
+    display: block;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 13px;
+    line-height: 20px;
+    border: none;
+}
+.textarea-wrapper textarea:focus {
+    color: #333;
+}
+.opts-wraper{
+    position: relative;
+    box-shadow: 0 1px 0 rgba(255,255,255,0.6);
+    height: 30px;
+    border: 1px solid #ccc;
+    border-right: none;
+    border-bottom-color: #aaa;
+    border-radius: 0 0 3px 3px;
+    background: url("http://static.duoshuo.com/images/bg_sprites.png") 0 -60px repeat-x;
+}
+.btn-submit{
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    position: absolute;
+    right: 0;
+    top: -1px;
+    height: 32px;
+    width: 100px;
+    text-align: center;
+    color: #555;
+    font-size: 14px;
+    font-weight: bold;
+    border: 1px solid #ccc;
+    border-bottom-color: #aaa;
+    border-ridus: 0 3px 0 0;
+    background-color: #e6e6e6;
+    background-repeat: no-repeat;
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#fcfcfc), color-stop(25%, #fcfcfc), to(#e6e6e6));
+    background-image: -webkit-linear-gradient(#fcfcfc, #fcfcfc 25%, #e6e6e6);
+    background-image: -moz-linear-gradient(top, #fcfcfc, #fcfcfc 25%, #e6e6e6);
+    background-image: -ms-linear-gradient(#fcfcfc, #fcfcfc 25%, #e6e6e6);
+    background-image: linear-gradient(#fcfcfc, #fcfcfc 25%, #e6e6e6);
+    transition: all .15s linear;
+    -webkit-transition: all .15s linear;
+    -moz-transition: all .15s linear;
+    box-shadow: inset 0 0 1px #fff;
+}
+
+.comment-header{background: #efeff4;height: 36px;line-height: 36px;color: #263f7e;font-size: 13px;font-weight: 400;padding: 0 10px;}
+.comment-header strong{
+    font-size: 15px;
+    color:#15317a;
+}
+.reply-list .comment_cont {
+    font-size: 16px;
+    line-height: 1.5em;
+    margin: .5em 0;
+    word-wrap: break-word;
+    color: #5b5b5b;
+}
+.reply-list p{padding-left: 10px;}
+.reply-list .comment-footer{color: #555;}
+.reply-list .comment-footer span{margin-right: 8px;}
+.reply-list .comment-footer a{margin-right: 8px;}

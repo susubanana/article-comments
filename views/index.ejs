@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+
+<head>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="http://getbootstrap.com/2.3.2/assets/css/bootstrap.css">
+    <%- css('/application') %>
+    <%- js('/jquery/jquery-1.8.3.min.js') %>
+    <%- js('/lib/underscore-min.js') %>
+    <%- js('/templates') %>
+    <%- js('/comment') %>
+    <%- js('/common') %>
+</head>
+
+
+<body>
+<div class="container">
+    <h1>我爱评</h1>
+    <ul id="comments" class="comments-warper">
+        <li id="new_comment">
+            <div class="clearfix">
+                <div class="top-comment">
+                    <div class="textarea-wrapper">
+                        <textarea class="comment_area" name="message" placeholder="说点什么吧…"></textarea>
+                    </div>
+                    <div class="opts-wraper">
+                        <button class="btn-submit" type="submit">发布</button>
+                    </div>
+                    <form class="top-form" action="/" method="post">
+
+                    </form>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>
+</body>
+</html>
