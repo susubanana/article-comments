@@ -80,3 +80,6 @@ CommentApp.watchForChanges = (li, comment) ->
       CommentApp.updateComment(li, comment)
   $('.danger', li).click (e) =>
     CommentApp.deleteComment(li, comment)
+
+
+git@github.com:susubanana/article-comment.git
