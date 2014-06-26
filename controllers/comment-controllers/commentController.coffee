@@ -1,5 +1,5 @@
 path = require('path')
-for name in['get', 'create', 'show', 'update', 'remove']
+for name in['get', 'create', 'show', 'remove']
   require path.join(__dirname, "#{name}_responder")
 
 # 取所有数据
@@ -11,10 +11,7 @@ app.post '/api/comments', new CommentResponder.Create().respond
 # 取一条数据
 app.get '/api/comments/:id', new CommentResponder.Show().respond
 
-# 更新一条数据
-app.put '/api/comments/:id', new CommentResponder.Update().respond
-
 # 删除一条数据
-app.delete '/api/comments/:id', new CommentResponder.Delete().respond
+app.put '/api/comments/:id', new CommentResponder.Delete().respond
 
 

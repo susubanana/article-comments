@@ -48,7 +48,8 @@ a:hover{text-decoration:underline; color: #c00c00;}
 }
 
 .reply-warper{
-    padding: 0 20px 0 120px;
+    padding: 0 20px 0 100px;
+    margin-top: 10px;
 }
 .textarea-wrapper {
     position: relative;
@@ -120,14 +121,14 @@ a:hover{text-decoration:underline; color: #c00c00;}
     font-size: 15px;
     color:#15317a;
 }
-.reply-list .comment_cont {
+.comment-self .comment-cont {
     font-size: 16px;
     line-height: 1.5em;
     margin: .5em 0;
     word-wrap: break-word;
     color: #5b5b5b;
 }
-.reply-list p{padding-left: 10px;}
-.reply-list .comment-footer{color: #555;}
-.reply-list .comment-footer span{margin-right: 8px;}
-.reply-list .comment-footer a{margin-right: 8px;}
+.comment-self p{padding-left: 10px;}
+.comment-self .comment-footer{color: #555;}
+.comment-self .comment-footer span{margin-right: 8px;}
+.comment-self .comment-footer a{margin-right: 8px;}

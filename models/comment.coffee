@@ -6,9 +6,12 @@ global.Comment = mongoose.model 'CommentsBox', new Schema
   comment_cont:
     type: String
     validate: /.+/
-  name:
+  ref_id:
     type: String
   create_at:
     type: Date
     default: Date
+  remove_opts:
+    type: Boolean
+    default: false
 

@@ -6,6 +6,8 @@
 
   this.Templates = {};
 
-  Templates.list_item_template = "<li id=\"{{_id}}\">\n  <div class=\"clearfix\">\n    <ul class=\"reply-list\">\n      <li>\n        <h3 class=\"comment-header\">第 <strong>{{floor}}</strong> 楼</h3>\n        <p class=\"comment_cont\">{{comment_cont}}</p>\n        <p class=\"comment-footer\">\n          <span>{{create_at}}</span>\n          <a href=\"javascript:;\" class='reply'>回复</a>\n          <a href=\"javascript:;\" class='danger'>删除</a>\n        </p>\n      </li>\n\n    </ul>\n  </div>\n</li>";
+  Templates.list_item_template = "<li id=\"{{_id}}\">\n  <div class=\"clearfix\">\n      <div class=\"comment-self\">\n        <h3 class=\"comment-header\">第 <strong>{{floor}}</strong> 楼</h3>\n        <p class=\"comment-cont\">{{comment_cont}}</p>\n        <p class=\"comment-footer\">\n          <span class=\"create-time\">{{create_at}}</span>\n        </p>\n      </div>\n  </div>\n</li>";
+
+  Templates.list_reply_box = "<div id=\"reply-box\" class=\"reply-warper reply-box\">\n    <div class=\"textarea-wrapper\">\n      <textarea name=\"message\" placeholder=\"说点什么吧…\"></textarea>\n    </div>\n    <div class=\"opts-wraper\">\n      <button class=\"btn-submit\" type=\"submit\">发布</button>\n    </div>\n</div>\n";
 
 }).call(this);

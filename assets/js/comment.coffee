@@ -1,16 +1,5 @@
 @CommentApp ||= {}
 
-# Update the style based on the state:
-CommentApp.styleByState = (li, comment) ->
-  if comment.state is "completed"
-    $('.comment_state', li).attr('checked', true)
-    $('label.active', li).removeClass('active')
-    $('.comment_title', li).addClass('completed').attr('disabled', true)
-  else
-    $('.comment_state', li).attr('checked', false)
-    $('label', li).addClass('active')
-    $('.comment_title', li).removeClass('completed').attr('disabled', false)
-
 CommentApp.addComment = ->
   comment_ele = $('.comment_area')
   comment = {comment_cont: comment_ele.val()}
@@ -28,7 +17,6 @@ CommentApp.addComment = ->
 
 CommentApp.getComments = ->
   request = $.get('api/comments')
-  console.log(1)
   request.done (comments)->
     leng = comments.length
     for comment, i in comments.reverse()
@@ -42,41 +30,38 @@ CommentApp.appendComment = (comment, floor) ->
   template = _.template(Templates.list_item_template)(comment)
   li = $(template)
   $('#comments').append(li)
+  if (comment.remove_opts == false)
+    opts = $('<a href="javascript:;" class="reply">回复</a><a href="javascript:;" class="danger">删除</a>')
+    li.find('.comment-footer').append(opts)
   CommentApp.watchForChanges(li, comment)
-  CommentApp.styleByState(li, comment)
 
-CommentApp.updateComment = (li, comment) ->
-  comment.title = $('.comment_title', li).val()
-  if !comment.title? or comment.title.trim() is " "
-    alert("title can't be blank")
-  else
-    if $('.comment_state', li).attr('checked')?
-      comment.state = "completed"
-    else
-      comment.state = "pending"
-
-    id = $(li).attr('id')
-    request = $.post '/api/comments/' + id,
-      comment : comment
-      _method: 'post'
-    request.fail (response) =>
-      message = response.parse(response.responseText).message
-      alert(message)
-    request.done (comment) ->
-      CommentApp.styleByState(li, comment)
 
 CommentApp.deleteComment = (li, comment) ->
+  comment.comment_cont = "该评论已删除"
+  comment.remove_opts = true
+  comment.create_at = $(li).find('.create-time').text().replace(' ', 'T')
   id = $(li).attr('id')
-  request = $.post '/api/comments/' + id, _method: 'delete'
-  request.done  =>
-    $('#comments li:not("#new_comment")').remove()
-    CommentApp.getComments()
+  request = $.post '/api/comments/' + id,
+    comment: comment
+    _method: 'put'
+  request.fail (response) =>
+    message = response.parse(response.responseText).message
+    alert(message)
+  request.done ->
+    $(li).find('.comment-cont').text("该评论已删除")
+    $(li).find('.comment-footer a').remove()
 
 CommentApp.watchForChanges = (li, comment) ->
-  $('.comment_state', li).click (e) =>
-    CommentApp.updateComment(li, comment)
-  $('.comment_title', li).keypress (e) =>
-    if e.keyCode is 13
-      CommentApp.updateComment(li, comment)
+  flag = false
   $('.danger', li).click (e) =>
     CommentApp.deleteComment(li, comment)
+  $('.reply', li).click (e) =>
+    template = _.template(Templates.list_reply_box)()
+    reply_box = $(template)
+    if flag == false
+      $(li).find('.comment-self').append(reply_box)
+      flag = true
+    else
+      $(li).find('.reply-box').remove()
+      flag = false
+    $(li).siblings().find('.reply-box').remove()

@@ -2,18 +2,6 @@
 (function() {
   this.CommentApp || (this.CommentApp = {});
 
-  CommentApp.styleByState = function(li, comment) {
-    if (comment.state === "completed") {
-      $('.comment_state', li).attr('checked', true);
-      $('label.active', li).removeClass('active');
-      return $('.comment_title', li).addClass('completed').attr('disabled', true);
-    } else {
-      $('.comment_state', li).attr('checked', false);
-      $('label', li).addClass('active');
-      return $('.comment_title', li).removeClass('completed').attr('disabled', false);
-    }
-  };
-
   CommentApp.addComment = function() {
     var comment, comment_ele, request;
     comment_ele = $('.comment_area');
@@ -47,7 +35,6 @@
   CommentApp.getComments = function() {
     var request;
     request = $.get('api/comments');
-    console.log(1);
     return request.done(function(comments) {
       var comment, floor, i, leng, _i, _len, _ref, _results;
       leng = comments.length;
@@ -63,76 +50,64 @@
   };
 
   CommentApp.appendComment = function(comment, floor) {
-    var date_time, li, template;
+    var date_time, li, opts, template;
     date_time = comment.create_at.split('.')[0].replace('T', ' ');
     comment.create_at = date_time;
     comment.floor = floor;
     template = _.template(Templates.list_item_template)(comment);
     li = $(template);
     $('#comments').append(li);
-    CommentApp.watchForChanges(li, comment);
-    return CommentApp.styleByState(li, comment);
-  };
-
-  CommentApp.updateComment = function(li, comment) {
-    var id, request;
-    comment.title = $('.comment_title', li).val();
-    if ((comment.title == null) || comment.title.trim() === " ") {
-      return alert("title can't be blank");
-    } else {
-      if ($('.comment_state', li).attr('checked') != null) {
-        comment.state = "completed";
-      } else {
-        comment.state = "pending";
-      }
-      id = $(li).attr('id');
-      request = $.post('/api/comments/' + id, {
-        comment: comment,
-        _method: 'post'
-      });
-      request.fail((function(_this) {
-        return function(response) {
-          var message;
-          message = response.parse(response.responseText).message;
-          return alert(message);
-        };
-      })(this));
-      return request.done(function(comment) {
-        return CommentApp.styleByState(li, comment);
-      });
+    if (comment.remove_opts === false) {
+      opts = $('<a href="javascript:;" class="reply">回复</a><a href="javascript:;" class="danger">删除</a>');
+      li.find('.comment-footer').append(opts);
     }
+    return CommentApp.watchForChanges(li, comment);
   };
 
   CommentApp.deleteComment = function(li, comment) {
     var id, request;
+    comment.comment_cont = "该评论已删除";
+    comment.remove_opts = true;
+    comment.create_at = $(li).find('.create-time').text().replace(' ', 'T');
     id = $(li).attr('id');
     request = $.post('/api/comments/' + id, {
-      _method: 'delete'
+      comment: comment,
+      _method: 'put'
     });
-    return request.done((function(_this) {
-      return function() {
-        $('#comments li:not("#new_comment")').remove();
-        return CommentApp.getComments();
+    request.fail((function(_this) {
+      return function(response) {
+        var message;
+        message = response.parse(response.responseText).message;
+        return alert(message);
       };
     })(this));
+    return request.done(function() {
+      $(li).find('.comment-cont').text("该评论已删除");
+      return $(li).find('.comment-footer a').remove();
+    });
   };
 
   CommentApp.watchForChanges = function(li, comment) {
-    $('.comment_state', li).click((function(_this) {
-      return function(e) {
-        return CommentApp.updateComment(li, comment);
-      };
-    })(this));
-    $('.comment_title', li).keypress((function(_this) {
-      return function(e) {
-        if (e.keyCode === 13) {
-          return CommentApp.updateComment(li, comment);
-        }
-      };
-    })(this));
-    return $('.danger', li).click((function(_this) {
+    var flag;
+    flag = false;
+    $('.danger', li).click((function(_this) {
       return function(e) {
         return CommentApp.deleteComment(li, comment);
+      };
+    })(this));
+    return $('.reply', li).click((function(_this) {
+      return function(e) {
+        var reply_box, template;
+        template = _.template(Templates.list_reply_box)();
+        reply_box = $(template);
+        if (flag === false) {
+          $(li).find('.comment-self').append(reply_box);
+          flag = true;
+        } else {
+          $(li).find('.reply-box').remove();
+          flag = false;
+        }
+        return $(li).siblings().find('.reply-box').remove();
       };
     })(this));
   };

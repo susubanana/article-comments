@@ -14,12 +14,16 @@
       type: String,
       validate: /.+/
     },
-    name: {
+    ref_id: {
       type: String
     },
     create_at: {
       type: Date,
-      "default": Date.now
+      "default": Date
+    },
+    remove_opts: {
+      type: Boolean,
+      "default": false
     }
   }));
 
