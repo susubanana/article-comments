@@ -1,9 +1,13 @@
 @CommentApp ||= {}
 
 CommentApp.addComment = ->
-  comment_ele = $('.comment_area')
-  comment = {comment_cont: comment_ele.val()}
-  if !comment.comment_cont? or comment.comment_cont.trim() is ""
+  commentUserName = $('.user-name')
+  commentEle = $('.comment_area')
+  console.log(commentUserName)
+  comment = {user_name: commentUserName.val(), comment_cont: commentEle.val()}
+  if !comment.user_name? or comment.user_name.trim() is ""
+    alert "姓名不能为空"
+  else if !comment.comment_cont? or comment.comment_cont.trim() is ""
     alert "评论内容不能为空"
   else
     request = $.post('api/comments', comment: comment)
@@ -13,7 +17,7 @@ CommentApp.addComment = ->
     request.done (comment) =>
       floor = $('.comments-warper > li').length
       CommentApp.appendComment(comment, floor)
-      comment_ele.val("")
+      commentEle.val("")
 
 CommentApp.getComments = ->
   request = $.get('api/comments')
@@ -24,8 +28,8 @@ CommentApp.getComments = ->
       CommentApp.appendComment(comment, floor)
 
 CommentApp.appendComment = (comment, floor) ->
-  date_time = comment.create_at.split('.')[0].replace('T', ' ')
-  comment.create_at = date_time
+  dateTime = comment.create_at.split('.')[0].replace('T', ' ')
+  comment.create_at = dateTime
   comment.floor = floor
   template = _.template(Templates.list_item_template)(comment)
   li = $(template)

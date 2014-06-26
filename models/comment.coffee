@@ -1,8 +1,10 @@
 mongoose = require('mongoose')
 path = require('path')
 require path.join(__dirname, 'db')
-global.Comment = mongoose.model 'CommentsBox', new Schema
+global.Comment = mongoose.model 'Comments', new Schema
   id: ObjectId
+  user_name:
+    type: String
   comment_cont:
     type: String
     validate: /.+/

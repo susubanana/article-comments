@@ -3,12 +3,17 @@
   this.CommentApp || (this.CommentApp = {});
 
   CommentApp.addComment = function() {
-    var comment, comment_ele, request;
-    comment_ele = $('.comment_area');
+    var comment, commentEle, commentUserName, request;
+    commentUserName = $('.user-name');
+    commentEle = $('.comment_area');
+    console.log(commentUserName);
     comment = {
-      comment_cont: comment_ele.val()
+      user_name: commentUserName.val(),
+      comment_cont: commentEle.val()
     };
-    if ((comment.comment_cont == null) || comment.comment_cont.trim() === "") {
+    if ((comment.user_name == null) || comment.user_name.trim() === "") {
+      return alert("姓名不能为空");
+    } else if ((comment.comment_cont == null) || comment.comment_cont.trim() === "") {
       return alert("评论内容不能为空");
     } else {
       request = $.post('api/comments', {
@@ -26,7 +31,7 @@
           var floor;
           floor = $('.comments-warper > li').length;
           CommentApp.appendComment(comment, floor);
-          return comment_ele.val("");
+          return commentEle.val("");
         };
       })(this));
     }
@@ -50,9 +55,9 @@
   };
 
   CommentApp.appendComment = function(comment, floor) {
-    var date_time, li, opts, template;
-    date_time = comment.create_at.split('.')[0].replace('T', ' ');
-    comment.create_at = date_time;
+    var dateTime, li, opts, template;
+    dateTime = comment.create_at.split('.')[0].replace('T', ' ');
+    comment.create_at = dateTime;
     comment.floor = floor;
     template = _.template(Templates.list_item_template)(comment);
     li = $(template);

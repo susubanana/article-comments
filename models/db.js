@@ -8,6 +8,6 @@
 
   global.ObjectId = Schema.ObjectId;
 
-  mongoose.connect("mongodb://localhost:27017/commentsBox");
+  mongoose.connect("mongodb://localhost:27017/comments");
 
 }).call(this);

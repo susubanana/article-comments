@@ -116,7 +116,13 @@ a:hover{text-decoration:underline; color: #c00c00;}
     box-shadow: inset 0 0 1px #fff;
 }
 
-.comment-header{background: #efeff4;height: 36px;line-height: 36px;color: #263f7e;font-size: 13px;font-weight: 400;padding: 0 10px;}
+.comment-header{background: #efeff4;height: 36px;line-height: 36px;color: #263f7e;font-size: 14px;font-weight: 400;padding: 0 10px;}
+.comment-header h3{
+    float: left;
+    display: inline;
+    margin-right: 10px;
+    height: 36px;line-height: 36px;
+}
 .comment-header strong{
     font-size: 15px;
     color:#15317a;
