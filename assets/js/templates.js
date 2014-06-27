@@ -6,8 +6,8 @@
 
   this.Templates = {};
 
-  Templates.list_item_template = "<li id=\"{{_id}}\">\n  <div class=\"clearfix\">\n      <div class=\"comment-self\">\n        <div class=\"comment-header\">\n          <h3 class=\"comment-floor\"><strong>{{floor}}</strong> 楼</h3>\n          <span class=\"user-name\">{{user_name}}说：</span>\n        </div>\n\n        <p class=\"comment-cont\">{{comment_cont}}</p>\n        <p class=\"comment-footer\">\n          <span class=\"create-time\">{{create_at}}</span>\n        </p>\n      </div>\n  </div>\n</li>";
+  Templates.list_item_template = "<li id=\"{{_id}}\" data-key=\"{{ref_id}}\">\n  <div class=\"clearfix\">\n      <div class=\"comment-self\">\n        <div class=\"comment-header\">\n          <h3 class=\"comment-floor\"><strong>{{floor}}</strong> 楼</h3>\n          <span class=\"user-name\">{{user_name}}说：</span>\n        </div>\n\n        <p class=\"comment-cont\">{{comment_cont}}</p>\n        <p class=\"comment-footer\">\n          <span class=\"create-time\">{{create_at}}</span>\n        </p>\n      </div>\n  </div>\n</li>";
 
-  Templates.list_reply_box = "<div id=\"reply-box\" class=\"reply-warper reply-box\">\n    <input type=\"text\" class=\"user-name\" maxlength=\"30\" placeholder=\"输入你的昵称\" />\n    <div class=\"textarea-wrapper\">\n      <textarea name=\"message\" placeholder=\"说点什么吧…\"></textarea>\n    </div>\n    <div class=\"opts-wraper\">\n      <button class=\"btn-submit\" type=\"submit\">发布</button>\n    </div>\n</div>\n";
+  Templates.list_reply_box = "<div id=\"reply-box\" class=\"reply-warper reply-box\">\n    <input type=\"text\" class=\"user-name\" maxlength=\"30\" placeholder=\"输入你的昵称\" />\n    <div class=\"textarea-wrapper\">\n      <textarea class=\"comment_area\" name=\"message\" placeholder=\"说点什么吧…\"></textarea>\n    </div>\n    <div class=\"opts-wraper\">\n      <button class=\"btn-submit\" type=\"submit\">发布</button>\n    </div>\n</div>\n";
 
 }).call(this);

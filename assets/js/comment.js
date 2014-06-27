@@ -2,12 +2,14 @@
 (function() {
   this.CommentApp || (this.CommentApp = {});
 
-  CommentApp.addComment = function() {
-    var comment, commentEle, commentUserName, request;
-    commentUserName = $('.user-name');
-    commentEle = $('.comment_area');
-    console.log(commentUserName);
+  CommentApp.addComment = function(current, commentIdx) {
+    var comment, commentEle, commentUserName, refId, request;
+    refId = "syh" + commentIdx;
+    commentUserName = current.find('.user-name');
+    commentEle = current.find('.comment_area');
+    console.log(refId);
     comment = {
+      ref_id: refId,
       user_name: commentUserName.val(),
       comment_cont: commentEle.val()
     };
@@ -31,6 +33,7 @@
           var floor;
           floor = $('.comments-warper > li').length;
           CommentApp.appendComment(comment, floor);
+          commentUserName.val("");
           return commentEle.val("");
         };
       })(this));
@@ -93,8 +96,9 @@
   };
 
   CommentApp.watchForChanges = function(li, comment) {
-    var flag;
+    var flag, idx;
     flag = false;
+    idx = 0;
     $('.danger', li).click((function(_this) {
       return function(e) {
         return CommentApp.deleteComment(li, comment);
@@ -112,7 +116,14 @@
           $(li).find('.reply-box').remove();
           flag = false;
         }
-        return $(li).siblings().find('.reply-box').remove();
+        $(li).siblings().find('.reply-box').remove();
+        return $('.reply-box .btn-submit', li).click(function() {
+          var commentIdx, liKey;
+          liKey = $(li).attr('data-key');
+          idx = ++idx;
+          commentIdx = liKey + 'abcde' + idx;
+          return CommentApp.addComment($('.reply-box'), commentIdx);
+        });
       };
     })(this));
   };

@@ -1,10 +1,10 @@
 @CommentApp ||= {}
-
-CommentApp.addComment = ->
-  commentUserName = $('.user-name')
-  commentEle = $('.comment_area')
-  console.log(commentUserName)
-  comment = {user_name: commentUserName.val(), comment_cont: commentEle.val()}
+CommentApp.addComment = (current, commentIdx) ->
+  refId = "syh" + commentIdx
+  commentUserName = current.find('.user-name')
+  commentEle = current.find('.comment_area')
+  console.log(refId)
+  comment = {ref_id: refId, user_name: commentUserName.val(), comment_cont: commentEle.val()}
   if !comment.user_name? or comment.user_name.trim() is ""
     alert "姓名不能为空"
   else if !comment.comment_cont? or comment.comment_cont.trim() is ""
@@ -17,6 +17,7 @@ CommentApp.addComment = ->
     request.done (comment) =>
       floor = $('.comments-warper > li').length
       CommentApp.appendComment(comment, floor)
+      commentUserName.val("")
       commentEle.val("")
 
 CommentApp.getComments = ->
@@ -57,6 +58,7 @@ CommentApp.deleteComment = (li, comment) ->
 
 CommentApp.watchForChanges = (li, comment) ->
   flag = false
+  idx = 0
   $('.danger', li).click (e) =>
     CommentApp.deleteComment(li, comment)
   $('.reply', li).click (e) =>
@@ -69,3 +71,8 @@ CommentApp.watchForChanges = (li, comment) ->
       $(li).find('.reply-box').remove()
       flag = false
     $(li).siblings().find('.reply-box').remove()
+    $('.reply-box .btn-submit', li).click ->
+      liKey = $(li).attr('data-key')
+      idx = ++idx
+      commentIdx = liKey + 'abcde' + idx
+      CommentApp.addComment($('.reply-box'), commentIdx)

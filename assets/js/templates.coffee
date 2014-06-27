@@ -5,7 +5,7 @@ _.templateSettings = interpolate : /\{\{(.+?)\}\}/g
 @Templates = {}
 
 Templates.list_item_template = """
-<li id="{{_id}}">
+<li id="{{_id}}" data-key="{{ref_id}}">
   <div class="clearfix">
       <div class="comment-self">
         <div class="comment-header">
@@ -26,7 +26,7 @@ Templates.list_reply_box = """
 <div id="reply-box" class="reply-warper reply-box">
     <input type="text" class="user-name" maxlength="30" placeholder="输入你的昵称" />
     <div class="textarea-wrapper">
-      <textarea name="message" placeholder="说点什么吧…"></textarea>
+      <textarea class="comment_area" name="message" placeholder="说点什么吧…"></textarea>
     </div>
     <div class="opts-wraper">
       <button class="btn-submit" type="submit">发布</button>
