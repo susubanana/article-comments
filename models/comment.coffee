@@ -1,7 +1,7 @@
 mongoose = require('mongoose')
 path = require('path')
 require path.join(__dirname, 'db')
-global.Comment = mongoose.model 'Commenta', new Schema
+global.Comment = mongoose.model 'Commentc', new Schema
   id: ObjectId
   ref_id:
     type: String

@@ -2,14 +2,12 @@
 (function() {
   this.CommentApp || (this.CommentApp = {});
 
-  CommentApp.addComment = function(current, commentIdx) {
-    var comment, commentEle, commentUserName, refId, request;
-    refId = "syh" + commentIdx;
+  CommentApp.addComment = function(current, element) {
+    var comment, commentEle, commentUserName, request;
     commentUserName = current.find('.user-name');
     commentEle = current.find('.comment_area');
-    console.log(refId);
     comment = {
-      ref_id: refId,
+      ref_id: element,
       user_name: commentUserName.val(),
       comment_cont: commentEle.val()
     };
@@ -96,9 +94,8 @@
   };
 
   CommentApp.watchForChanges = function(li, comment) {
-    var flag, idx;
+    var flag;
     flag = false;
-    idx = 0;
     $('.danger', li).click((function(_this) {
       return function(e) {
         return CommentApp.deleteComment(li, comment);
@@ -118,11 +115,11 @@
         }
         $(li).siblings().find('.reply-box').remove();
         return $('.reply-box .btn-submit', li).click(function() {
-          var commentIdx, liKey;
-          liKey = $(li).attr('data-key');
-          idx = ++idx;
-          commentIdx = liKey + 'abcde' + idx;
-          return CommentApp.addComment($('.reply-box'), commentIdx);
+          var commentEle, refId, replyBox;
+          refId = $(li).attr('data-key');
+          commentEle = refId;
+          replyBox = $('.reply-box');
+          return CommentApp.addComment(replyBox, commentEle);
         });
       };
     })(this));

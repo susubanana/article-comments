@@ -1,12 +1,13 @@
 $ ->
-  commentIdx = 0
   $('.top-comment .comment_area').keypress (e)->
     if e.keyCode is 13
-      ++commentIdx
-      CommentApp.addComment($('.top-comment'), commentIdx)
+      topComment = $('.top-comment')
+      commentEle = "parent"
+      CommentApp.addComment(topComment, commentEle)
 
   $('.top-comment .btn-submit').click ->
-    ++commentIdx
-    CommentApp.addComment($('.top-comment'), commentIdx)
+    topComment = $('.top-comment')
+    commentEle = "parent"
+    CommentApp.addComment(topComment, commentEle)
 
   CommentApp.getComments()
