@@ -9,9 +9,9 @@ app.get '/api/comments', new CommentResponder.Get().respond
 app.post '/api/comments', new CommentResponder.Create().respond
 
 # 取一条数据
-app.get '/api/comments/:id', new CommentResponder.Show().respond
+app.get '/api/comments/:key_id', new CommentResponder.Show().respond
 
 # 删除一条数据
-app.put '/api/comments/:id', new CommentResponder.Delete().respond
+app.put '/api/comments/:key_id', new CommentResponder.Delete().respond
 
 

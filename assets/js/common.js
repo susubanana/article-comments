@@ -2,20 +2,51 @@
 (function() {
   $(function() {
     $('.top-comment .comment_area').keypress(function(e) {
-      var commentEle, topComment;
+      var commentEle, parent, topComment;
       if (e.keyCode === 13) {
         topComment = $('.top-comment');
         commentEle = "parent";
+        parent = $('#comments');
         return CommentApp.addComment(topComment, commentEle);
       }
     });
-    $('.top-comment .btn-submit').click(function() {
-      var commentEle, topComment;
+    $(document).on('click', '.top-comment .btn-submit', function() {
+      var commentEle, parent, topComment;
       topComment = $('.top-comment');
       commentEle = "parent";
+      parent = $('#comments');
       return CommentApp.addComment(topComment, commentEle);
     });
-    return CommentApp.getComments();
+    return $(document).delegate('.reply-box .btn-submit', 'click', function() {
+      var commentEle, currentLi, idx, keyId, keyIdIdx, lastChild, lastChildId, parentLi, replyBox;
+      currentLi = $(this).closest('li');
+      keyId = currentLi.attr('id');
+      keyIdIdx = keyId.indexOf('#');
+      if (keyIdIdx > 0) {
+        parentLi = currentLi.parents('li');
+      } else {
+        parentLi = currentLi;
+      }
+      lastChild = parentLi.find('li:last');
+      if (lastChild.length === 0) {
+        commentEle = keyId + "#" + "001";
+      } else {
+        lastChildId = lastChild.attr('id');
+        keyId = lastChildId.split('#')[0];
+        idx = parseInt(lastChildId.split('#')[1]);
+        idx++;
+        if (idx < 10) {
+          commentEle = keyId + "#" + "00" + idx;
+        } else if (idx >= 10 && idx < 100) {
+          commentEle = keyId + "#" + "0" + idx;
+        } else {
+          commentEle = keyId + "#" + idx;
+        }
+      }
+      replyBox = $('.reply-box');
+      CommentApp.addComment(replyBox, commentEle);
+      return replyBox.remove();
+    });
   });
 
 }).call(this);

@@ -3,12 +3,15 @@
   this.CommentApp || (this.CommentApp = {});
 
   CommentApp.addComment = function(current, element) {
-    var comment, commentEle, commentUserName, request;
+    var comment, commentEle, commentUserName, par, replyName, request;
     commentUserName = current.find('.user-name');
-    commentEle = current.find('.comment_area');
+    commentEle = current.find('.comment-area');
+    par = current.closest('li');
+    replyName = par.find('.user-name').eq(0).find('.name').text();
     comment = {
-      ref_id: element,
+      key_id: element,
       user_name: commentUserName.val(),
+      reply_name: replyName,
       comment_cont: commentEle.val()
     };
     if ((comment.user_name == null) || comment.user_name.trim() === "") {
@@ -42,13 +45,13 @@
     var request;
     request = $.get('api/comments');
     return request.done(function(comments) {
-      var comment, floor, i, leng, _i, _len, _ref, _results;
+      var comment, floor, leng, _i, _len, _ref, _results;
       leng = comments.length;
       _ref = comments.reverse();
       _results = [];
-      for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
-        comment = _ref[i];
-        floor = i + 1;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        comment = _ref[_i];
+        floor = parseInt(comment.index_init);
         _results.push(CommentApp.appendComment(comment, floor));
       }
       return _results;
@@ -56,27 +59,42 @@
   };
 
   CommentApp.appendComment = function(comment, floor) {
-    var dateTime, li, opts, template;
+    var childList_warper, childWraper, commentKeyId, dateTime, keyIdIdx, li, liId, opts, par, template;
     dateTime = comment.create_at.split('.')[0].replace('T', ' ');
     comment.create_at = dateTime;
     comment.floor = floor;
-    template = _.template(Templates.list_item_template)(comment);
-    li = $(template);
-    $('#comments').append(li);
+    commentKeyId = comment.key_id;
+    keyIdIdx = commentKeyId.indexOf('#');
+    if (keyIdIdx > 0) {
+      liId = commentKeyId.substring(0, keyIdIdx);
+      par = $('#' + liId);
+      childList_warper = _.template(Templates.childList_warper)(comment);
+      template = _.template(Templates.childList_item_template)(comment);
+      li = $(template);
+      childWraper = par.find('.child-wraper .child-list');
+      if (childWraper.length === 0) {
+        par.append(childList_warper);
+      }
+      par.find('.child-wraper .child-list').append(li);
+    } else {
+      template = _.template(Templates.list_item_template)(comment);
+      li = $(template);
+      $('#comments').append(li);
+    }
     if (comment.remove_opts === false) {
-      opts = $('<a href="javascript:;" class="reply">回复</a><a href="javascript:;" class="danger">删除</a>');
+      opts = $('<a hkey="javascript:;" class="reply">回复</a><a hkey="javascript:;" class="danger">删除</a>');
       li.find('.comment-footer').append(opts);
     }
     return CommentApp.watchForChanges(li, comment);
   };
 
   CommentApp.deleteComment = function(li, comment) {
-    var id, request;
+    var keyId, request;
     comment.comment_cont = "该评论已删除";
     comment.remove_opts = true;
     comment.create_at = $(li).find('.create-time').text().replace(' ', 'T');
-    id = $(li).attr('id');
-    request = $.post('/api/comments/' + id, {
+    keyId = $(li).attr('id');
+    request = $.post('/api/comments/' + keyId, {
       comment: comment,
       _method: 'put'
     });
@@ -94,33 +112,19 @@
   };
 
   CommentApp.watchForChanges = function(li, comment) {
-    var flag;
-    flag = false;
     $('.danger', li).click((function(_this) {
-      return function(e) {
+      return function() {
         return CommentApp.deleteComment(li, comment);
       };
     })(this));
     return $('.reply', li).click((function(_this) {
-      return function(e) {
+      return function() {
         var reply_box, template;
+        $('.reply-box').remove();
         template = _.template(Templates.list_reply_box)();
         reply_box = $(template);
-        if (flag === false) {
-          $(li).find('.comment-self').append(reply_box);
-          flag = true;
-        } else {
-          $(li).find('.reply-box').remove();
-          flag = false;
-        }
-        $(li).siblings().find('.reply-box').remove();
-        return $('.reply-box .btn-submit', li).click(function() {
-          var commentEle, refId, replyBox;
-          refId = $(li).attr('data-key');
-          commentEle = refId;
-          replyBox = $('.reply-box');
-          return CommentApp.addComment(replyBox, commentEle);
-        });
+        $(li).find('.comment-self').eq(0).append(reply_box);
+        return $(li).siblings().find('.reply-box').remove();
       };
     })(this));
   };

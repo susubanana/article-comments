@@ -137,4 +137,5 @@ a:hover{text-decoration:underline; color: #c00c00;}
 .comment-self p{padding-left: 10px;}
 .comment-self .comment-footer{color: #555;}
 .comment-self .comment-footer span{margin-right: 8px;}
-.comment-self .comment-footer a{margin-right: 8px;}
+.comment-self .comment-footer a{margin-right: 8px;cursor: pointer;}
+.child-wraper{padding: 15px 0 0 60px;}
